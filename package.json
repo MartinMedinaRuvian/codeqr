@@ -1,0 +1,15 @@
+{
+  "name": "ejemploqr",
+  "version": "1.0.0",
+  "description": "Crear qr",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node src/app.js"
+  },
+  "author": "Martin de Jesus Medina Ruvian",
+  "license": "ISC",
+  "dependencies": {
+    "qrcode": "^1.4.4"
+  }
+}
