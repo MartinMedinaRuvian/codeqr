@@ -1,29 +1,40 @@
-//USO MODULO QUE TRAE POR DEFECTO fs PARA EL MANEJO DE ARCHIVOS (CREACION, MODIFICACION, ELIMINACION, ETC)
-const fs = require('fs');
 //USO EL MODULO DE NPM qrcode EL CUAL SE ENCARGARA DE CREAR EL QR
 const qrcode = require('qrcode');
+//USO MODULO EXPRESS
+const express = require('express');
+//USO MODULO PATH PARA OBTERNER RUTAS DE LAS CARPETAS DE UNA FORMA RAPIDA
+const path = require('path');
 
-//FUNCION PRINCIPAL PARA CREAR EL ARCHIVO QR
-async function crearQR(texto_o_url, rutaGuardar){
-    const qr = await qrcode.toDataURL(texto_o_url);
-    const htmlContent = formatoHTML(qr, texto_o_url);
-    crearArchivo(htmlContent, rutaGuardar);
+const app = express();
+
+//CONFIG MIDELLWARES
+app.use(express.urlencoded({extended:false}));
+
+//CONFIG ROUTERS
+app.get("/", (req, res) => {
+    res.render("index.ejs");
+})
+
+app.post("/create", async (req, res) => {
+    let text = req.body.text;
+    let qr = await createQR(text);
+    res.render("create.ejs", { text, qr });
+})
+
+//CONFIG DAFAULTS VIEWS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'vistas'));
+
+//FUNCTION FOR CREATE QR
+async function createQR(text_or_url) {
+    const qr = await qrcode.toDataURL(text_or_url);
+    return qr;
 }
 
-//CREO EL FORMATO DE HTML QUE QUIERO MOSTRAR DONDE VOY A MOSTRAR EL QR EN UNA IMAGEN Y EL TEXTO EN UN PARRAFO
-function formatoHTML(qr){
-    return `
-    <div>
-    <h3>Código QR Generado</h3>
-    <img src="${qr}">
-    </div>
-    `;
-}
+//CONFIG PORT WHERE RUN SERVER
+app.set('port', 5000);
+let puerto = app.get('port');
 
-//CREO EL ARCHIVO index.html EN LA RAIZ DEL PROYECTO COMO PRIMER PARAMETRO LE PASO EL FORMATO DEL ARCHIVO Y COMO SEGUNDO PARAMETRO LA RUTA DONDE SE VA GUARDAR
-function crearArchivo(htmlContent, rutaGuardar){
-    fs.writeFileSync(rutaGuardar, htmlContent);
-}
-
-//EJECUTO LA FUNCION PRINCIPAL LA CUAL CREARA EL ARCHIVO 
-crearQR('https://martinmedinaruvian.github.io/index/', './test.html');
+app.listen(puerto, () => {
+    console.log('Servidor corriendo en el puerto ', puerto);
+});
