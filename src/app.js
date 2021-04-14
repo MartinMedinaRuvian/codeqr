@@ -33,8 +33,8 @@ async function createQR(text_or_url) {
 
 //CONFIG PORT WHERE RUN SERVER
 app.set('port', 5000);
-let puerto = app.get('port');
+let port = app.get('port');
 
-app.listen(puerto, () => {
-    console.log('Servidor corriendo en el puerto ', puerto);
+app.listen(port, () => {
+    console.log('Servidor corriendo en el puerto ', port);
 });
