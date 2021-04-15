@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('partials/_header') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba QR</title>
-</head>
+    <div class="container mt-5 text-center">
+        <h6>Crea tus códigos QR de forma sencilla</h6>
+    </div>
 
-<body>
-    <form action="/create" method="POST">
-    <input type="text" name="text" placeholder="Ingrese texto o URL" required>
-    <input type="submit" value="Crear QR">
-    </form>
-</body>
+    <div class="container text-center mt-5">
 
-</html>
+        <form action="/create" method="POST" class="form">
+            <div class="form-group">
+                <input type="text" name="text" placeholder="Ingrese texto o URL" required class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear QR" class="btn btn-danger mt-3">
+            </div>
+        </form>
+
+    </div>
+
+    <%- include('partials/_footer') %>
